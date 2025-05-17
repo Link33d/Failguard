@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 	"server/src/models"
-	"time"
+	"server/src/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,10 +21,11 @@ func CreateCheck(ctx *gin.Context) {
 		return
 	}
 
-	now := time.Now().Format(time.RFC3339)
-	check.CreatedAt = now
-	check.UpdatedAt = now
+	if err := services.SaveCheck(&check); err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "failed to save check"})
+		return
+	}
 
-	ctx.JSON(http.StatusOK, gin.H{"message": "Check successfully created!"})
+	ctx.JSON(http.StatusOK, gin.H{"message": "Check successfully created!", "data": check})
 
 }

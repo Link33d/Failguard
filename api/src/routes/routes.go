@@ -10,4 +10,6 @@ func Initialize(server *gin.Engine) {
 
 	server.GET("/", controllers.Index)
 
+	server.POST("/check", controllers.CreateCheck)
+
 }

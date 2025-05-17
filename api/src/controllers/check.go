@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"server/src/models"
 	"server/src/services"
@@ -26,6 +27,18 @@ func CreateCheck(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"message": "Check successfully created!", "data": check})
+	ctx.JSON(http.StatusCreated, gin.H{"message": "Check successfully created!", "data": check})
 
+}
+
+func GetChecks(ctx *gin.Context) {
+
+	var checks []models.Check
+	if err := services.GetChecks(&checks); err != nil {
+		fmt.Println(err)
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to fetch checks"})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"data": checks})
 }

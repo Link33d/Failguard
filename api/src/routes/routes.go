@@ -11,5 +11,5 @@ func Initialize(server *gin.Engine) {
 	server.GET("/", controllers.Index)
 
 	server.POST("/check", controllers.CreateCheck)
-
+	server.GET("/checks", controllers.GetChecks)
 }
